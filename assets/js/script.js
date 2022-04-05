@@ -11,13 +11,14 @@ let emailErrElem = document.getElementById("emailErr");
 
 hideErrBlocks();
 
-let button = document.querySelector(".plain-button");
+let form = document.querySelector(".registration-form");
 
-button.addEventListener( "click", ( event ) => {
+
+
+form.addEventListener( "submit", ( event ) => {
 
     // индикатор наличия ошибок. Если errInd == 0, то ошибок нет
     let errInd = 0;
-    console.log("1st errInd " + errInd);
     if ( !checkPhone(mobPhoneElem.value) ) {
         showErr(MobPhoneErrElem, "Номер телефона указан не корректно" );
         errInd++;
@@ -43,10 +44,19 @@ button.addEventListener( "click", ( event ) => {
     } else {
         hideErr(emailErrElem);
     }
+    // вывести приветствие, если ошибок нет
     if ( !errInd ) {
-        alert("Добро пожаловать, " + lastNameElem.value + " " + firstNameElem.value + "!");
+        sayWelcome();
+    }
+    // отменить сабмит, если есть ошибки
+    if(errInd > 0) {
+        event.preventDefault();
     }
 });
+
+function sayWelcome() {
+    alert("Добро пожаловать, " + lastNameElem.value + " " + firstNameElem.value + "!");
+}
 
 function checkPhone( phoneNumber ) {
     return /^(\+?7|8)-?\(?\d{3}\)?-?\d{3}-?\d{4}$/.test(phoneNumber.trim());
